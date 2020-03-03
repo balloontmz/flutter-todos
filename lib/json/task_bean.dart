@@ -37,33 +37,33 @@ class TaskBean {
   TaskIconBean taskIconBean;
   List<TaskDetailBean> detailList = [];
 
-
   ///以下内容，只存储在本地数据库内。
 
   ///当前字体颜色
   ColorBean textColor;
+
   ///当前卡片背景图片地址
   String backgroundUrl;
 
-  TaskBean(
-      {this.taskName = "",
-      this.taskType = "",
-      this.taskStatus = TaskStatus.todo,
-      this.taskDetailNum,
-      this.overallProgress = 0.0,
-      this.uniqueId,
-      this.needUpdateToCloud = 'true',
-      this.changeTimes = 0,
-      this.createDate = "",
-      this.finishDate = "",
-      this.account = "default",
-      this.startDate = "",
-      this.deadLine = "",
-      this.taskIconBean,
-      this.detailList,
-      this.textColor,
-      this.backgroundUrl,
-      });
+  TaskBean({
+    this.taskName = "",
+    this.taskType = "",
+    this.taskStatus = TaskStatus.todo,
+    this.taskDetailNum,
+    this.overallProgress = 0.0,
+    this.uniqueId,
+    this.needUpdateToCloud = 'true',
+    this.changeTimes = 0,
+    this.createDate = "",
+    this.finishDate = "",
+    this.account = "default",
+    this.startDate = "",
+    this.deadLine = "",
+    this.taskIconBean,
+    this.detailList,
+    this.textColor,
+    this.backgroundUrl,
+  });
 
   static TaskBean fromMap(Map<String, dynamic> map) {
     TaskBean taskBean = new TaskBean();
@@ -81,7 +81,7 @@ class TaskBean {
     taskBean.finishDate = map['finishDate'];
     taskBean.startDate = map['startDate'];
     taskBean.deadLine = map['deadLine'];
-    if(map['taskIconBean'] is String){
+    if (map['taskIconBean'] is String) {
       var taskIconBean = jsonDecode(map['taskIconBean']);
       taskBean.taskIconBean = TaskIconBean.fromMap(taskIconBean);
     } else {
@@ -93,7 +93,7 @@ class TaskBean {
     } else {
       taskBean.detailList = TaskDetailBean.fromMapList(map['detailList']);
     }
-    if (map['textColor'] is String){
+    if (map['textColor'] is String) {
       var textColor = jsonDecode(map['textColor']);
       taskBean.textColor = ColorBean.fromMap(textColor);
     } else {
@@ -118,7 +118,7 @@ class TaskBean {
     taskBean.finishDate = map['finishDate'];
     taskBean.startDate = map['startDate'];
     taskBean.deadLine = map['deadLine'];
-    if(map['taskIconBean'] is String){
+    if (map['taskIconBean'] is String) {
       var taskIconBean = jsonDecode(map['taskIconBean']);
       taskBean.taskIconBean = TaskIconBean.fromMap(taskIconBean);
     } else {
@@ -155,7 +155,8 @@ class TaskBean {
       'taskType': taskType,
       'taskStatus': taskStatus,
       'taskDetailNum': taskDetailNum,
-      'overallProgress': (overallProgress >= 1.0 ? 1.0 : overallProgress).toString(),
+      'overallProgress':
+          (overallProgress >= 1.0 ? 1.0 : overallProgress).toString(),
       'createDate': createDate,
       'account': account,
       'uniqueId': uniqueId,
@@ -174,29 +175,26 @@ class TaskBean {
     //把list转换为string的时候不要直接使用tostring，要用jsonEncode
   }
 
-
   @override
   String toString() {
     return 'TaskBean{id: $id, taskName: $taskName, taskType: $taskType, account: $account, taskStatus: $taskStatus, taskDetailNum: $taskDetailNum, overallProgress: $overallProgress, uniqueId: $uniqueId, needUpdateToCloud: $needUpdateToCloud, changeTimes: $changeTimes, createDate: $createDate, finishDate: $finishDate, startDate: $startDate, deadLine: $deadLine, taskIconBean: $taskIconBean, detailList: $detailList, textColor: $textColor, backgroundUrl: $backgroundUrl}';
   }
 
   ///是否需要在云端更新
-  bool getNeedUpdateToCloud(TaskBean taskBean){
+  bool getNeedUpdateToCloud(TaskBean taskBean) {
     final uniqueId = taskBean.uniqueId;
     final account = taskBean.account;
-    if(account == 'default') return false;
-    if(uniqueId == null){
+    if (account == 'default') return false;
+    if (uniqueId == null) {
       taskBean.needUpdateToCloud = 'true';
       return true;
     }
-    if(taskBean.needUpdateToCloud == null){
+    if (taskBean.needUpdateToCloud == null) {
       taskBean.needUpdateToCloud = 'true';
       return true;
     }
     return taskBean.needUpdateToCloud == 'true';
   }
-
-
 }
 
 //单个任务详情的json数据
@@ -209,7 +207,9 @@ class TaskDetailBean {
   static TaskDetailBean fromMap(Map<String, dynamic> map) {
     TaskDetailBean taskDetailBean = new TaskDetailBean();
     taskDetailBean.taskDetailName = map['taskDetailName'];
-    taskDetailBean.itemProgress = map['itemProgress'] is double ? map['itemProgress'] : double.parse(map['itemProgress']);
+    taskDetailBean.itemProgress = map['itemProgress'] is double
+        ? map['itemProgress']
+        : double.parse(map['itemProgress']);
     return taskDetailBean;
   }
 
